@@ -1,9 +1,10 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-nx-welcome',
-  imports: [CommonModule],
+  imports: [CommonModule, HttpClientModule],
   template: `
     <!--
      * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -866,4 +867,16 @@ nx g &#64;nx/angular:component ui/src/lib/button</pre>
   styles: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class NxWelcomeComponent {}
+export class NxWelcomeComponent implements OnInit {
+  constructor(private http: HttpClient) { }
+
+  ngOnInit() {
+    this.getData();
+  }
+
+  getData() {
+    this.http.get('/api').subscribe((response) => {
+      console.log(response);
+    });
+  }
+}
