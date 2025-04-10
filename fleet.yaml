@@ -1,0 +1,6 @@
+defaultNamespace: your-app
+targets:
+  - name: dev
+    clusterSelector:
+      matchLabels:
+        env: dev
