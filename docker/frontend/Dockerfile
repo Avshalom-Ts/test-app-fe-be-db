@@ -1,3 +1,4 @@
+# Docker image for Angular frontend
 FROM node:lts-alpine AS build
 WORKDIR /app
 COPY package*.json ./
@@ -9,20 +10,23 @@ RUN npm i @nrwl/cli
 
 COPY . .
 
-RUN npx nx run back-end:build --configuration=development
+RUN npx nx run front-end:build --configuration=production
 
 # Use a simple HTTP server like serve (or you could use a basic Node.js server)
 FROM node:lts-alpine
-RUN npm install -g pm2
+# RUN npm install -g pm2
+RUN npm install -g serve
 WORKDIR /app
 
 # Copy the compiled Angular project from the build stage
 COPY --from=build /app/dist/apps/front-end/browser /app
 
 # Use the 'serve' command to serve the static files
-CMD ["pm2-runtime", "serve", "--spa"]
+# CMD ["pm2", "serve", "--spa","-i","3"]
+CMD ["serve", "-s", ".", "-l", "4200"]
+# CMD ["pm2-runtime", "start" ,"main.js", "--name", "back-end", "-i","3"]
 
-EXPOSE 8080
+EXPOSE 4200
 
 # To build the image, run:
 # docker build -f docker/frontend/Dockerfile -t avshalom/frontend:latest .

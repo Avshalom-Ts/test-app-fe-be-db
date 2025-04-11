@@ -1,0 +1,45 @@
+version: '3.8'
+
+networks:
+  test-net:
+    name: test-net
+    driver: bridge
+
+services:
+  # BackEnd - NestJS API
+  back-end:
+    restart: unless-stopped
+    container_name: back-end-test
+    build:
+      context: .
+      dockerfile: docker/backEnd/Dockerfile
+
+    ports:
+      - '3000:3000' # Expose the API directly
+    networks:
+      - test-net
+    # environment:
+    # DATABASE_URL: postgresql://fortressuser:Angi120593@192.168.1.99:5432/fortressdb?schema=public
+    # SESSION_SECRET: erhbrynjtmdtfherathbyjmnhdtfxzfhgzfgbgdftaherhtgn
+    # NODE_ENV: production
+
+  # FrontEnd - Angular UI
+  front-end:
+    restart: unless-stopped
+    container_name: front-end-test
+    depends_on:
+      - back-end
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    ports:
+      - '4200:4200' # Map port 8400 on the host to port 4200 in the container
+    networks:
+      - test-net
+    environment:
+      # NODE_ENV: production
+      VERSION: 1.0.0
+# Build the containers and start the services:
+# docker compose up --build -d
+# Pruning command to remove unused data (optional)
+# docker system prune -a --volumes -f; docker compose up --build
