@@ -7,7 +7,7 @@ RUN npx ngcc --properties es2023 browser module main --first-only --create-ivy-e
 
 RUN npm i @nrwl/cli
 
-COPY ./../../ .
+COPY . .
 
 RUN npx nx run back-end:build --configuration=development
 
@@ -20,7 +20,7 @@ WORKDIR /app
 COPY --from=build /app/dist/apps/front-end/browser /app
 
 # Use the 'serve' command to serve the static files
-CMD ["pm2", "serve", "--spa"]
+CMD ["pm2-runtime", "serve", "--spa"]
 
 EXPOSE 8080
 
