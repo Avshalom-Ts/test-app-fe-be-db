@@ -14,9 +14,9 @@ spec:
     spec:
       containers:
         - name: backend
-          image: your-dockerhub-username/backend:latest
+          image: avshalomts/backend:latest
           ports:
             - containerPort: 3000
-          env:
-            - name: DATABASE_URL
-              value: postgres://youruser:yourpassword@postgres:5432/yourdb
+          # env:
+          #   - name: DATABASE_URL
+          #     value: postgres://youruser:yourpassword@postgres:5432/yourdb

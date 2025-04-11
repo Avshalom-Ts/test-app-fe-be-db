@@ -43,3 +43,7 @@ EXPOSE ${PORT}
 # docker run -d -p 3000:3000 avshalom/backend:latest -t avshalom/backend:latest
 # To run the container to debug, use:
 # docker run -it -p 3000:3000 avshalom/backend:latest /bin/sh
+
+# Tag the image and push it to Docker Hub:
+# docker tag avshalom/backend:latest avshalomts/backend:latest
+# docker push avshalomts/backend:latest

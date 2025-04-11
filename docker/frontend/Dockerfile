@@ -36,3 +36,7 @@ EXPOSE 4200
 # docker run -d -p 8080:8080 avshalom/frontend:latest
 # To run the container to debug, use:
 # docker run -it -p 8080:8080 avshalom/frontend:latest /bin/sh
+
+# Tag the image and push it to Docker Hub:
+# docker tag avshalom/frontend:latest avshalomts/frontend:latest
+# docker push avshalomts/frontend:latest
