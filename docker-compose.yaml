@@ -1,4 +1,4 @@
-version: '3.8'
+# version: '3.8'
 
 networks:
   test-net:
@@ -12,7 +12,7 @@ services:
     container_name: back-end-test
     build:
       context: .
-      dockerfile: docker/backEnd/Dockerfile
+      dockerfile: docker/backend/Dockerfile
 
     ports:
       - '3000:3000' # Expose the API directly
