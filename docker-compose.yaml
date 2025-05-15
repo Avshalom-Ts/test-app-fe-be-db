@@ -33,7 +33,7 @@ services:
       context: .
       dockerfile: docker/frontend/Dockerfile
     ports:
-      - '4200:4200' # Map port 8400 on the host to port 4200 in the container
+      - '80:80' # Map port 8400 on the host to port 4200 in the container
     networks:
       - test-net
     environment:
