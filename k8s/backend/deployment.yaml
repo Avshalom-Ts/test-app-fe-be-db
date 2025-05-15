@@ -20,3 +20,10 @@ spec:
           # env:
           #   - name: DATABASE_URL
           #     value: postgres://youruser:yourpassword@postgres:5432/yourdb
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
