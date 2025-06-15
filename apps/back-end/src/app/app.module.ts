@@ -9,6 +9,8 @@ import connectPgSimple from 'connect-pg-simple';
 import { PassportModule } from '@nestjs/passport';
 import session from 'express-session';
 import passport from 'passport';
+import { StoreName } from '../store-name/entities/store-name.entity';
+import { StoreNameModule } from '../store-name/store-name.module';
 
 @Module({
   imports: [
@@ -26,13 +28,16 @@ import passport from 'passport';
           database: configService.get('POSTGRES_DB'),
           host: configService.get('POSTGRES_HOST'),
           port: +configService.get<number>('POSTGRES_PORT'),
-          entities: [],
+          entities: [
+            StoreName
+          ],
           synchronize: true,
         }
       },
       inject: [ConfigService],
     }),
     PassportModule.register({ session: true }),
+    StoreNameModule
   ],
   controllers: [AppController],
   providers: [AppService],
