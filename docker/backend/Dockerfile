@@ -4,7 +4,7 @@ ARG BUILD_NODE_IMAGE=node:20-alpine
 # BUILDER STEP
 FROM ${BUILD_NODE_IMAGE} AS builder
 WORKDIR /app
-COPY package*.json ./
+COPY package*.json /app
 
 
 WORKDIR /app

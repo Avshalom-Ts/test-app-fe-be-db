@@ -4,7 +4,7 @@ ARG PROD_NODE_IMAGE=nginx:stable-alpine3.21-slim
 
 FROM ${BUILD_NODE_IMAGE} AS build
 WORKDIR /app
-COPY package*.json ./
+COPY package*.json /app
 
 RUN npm ci
 RUN npx ngcc --properties es2023 browser module main --first-only --create-ivy-entry-points
