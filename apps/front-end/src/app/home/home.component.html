@@ -2,11 +2,27 @@
 
     <div class="flex flex-col items-center justify-center h-full">
         <h1 class="text-4xl text-white mb-4">Welcome to the Home Page</h1>
-        <p class="text-lg text-gray-300">This is a simple home page layout.</p>
+        @if(apiConnection()){
+        <p class="text-lg text-slate-400">Hello From:<span class="font-bold">{{apiConnection()?.message}}</span></p>
+        <p class="text-lg text-slate-400">Connecting database URI:<span
+                class="font-bold">{{apiConnection()?.databaseURL}}</span></p>
+        }
+        <!-- Create Store Name -->
+        <div>
+            <form [formGroup]="storeForm" (ngSubmit)="onSubmit()" novalidate class="flex flex-col items-center">
+                <input type="text" formControlName="name" required placeholder="Enter Store Name"
+                    class="p-2 mb-4 rounded bg-slate-800 text-white w-64">
+                <input type="text" formControlName="description" required placeholder="Enter Store Description"
+                    class="p-2 mb-4 rounded bg-slate-800 text-white w-64">
+                <button type="submit"
+                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300">Create
+                    Store
+                </button>
+            </form>
+        </div>
+        <!-- Fetch All Store Names -->
+        <div class="text-white text-base">
+            {{allStores() | json}}
+        </div>
     </div>
-
-    <div class="flex flex-col items-center justify-center h-full">
-        <p>Hello From: {{apiConnection()}} </p>
-    </div>
-
 </main>
