@@ -1,5 +1,4 @@
 # version: '3.8'
-
 networks:
   test-net:
     name: test-net
@@ -18,10 +17,11 @@ services:
       - '3000:3000' # Expose the API directly
     networks:
       - test-net
-    # environment:
-    # DATABASE_URL: postgresql://fortressuser:Angi120593@192.168.1.99:5432/fortressdb?schema=public
-    # SESSION_SECRET: erhbrynjtmdtfherathbyjmnhdtfxzfhgzfgbgdftaherhtgn
-    # NODE_ENV: production
+    environment:
+      # DATABASE_URL: postgresql://fortressuser:Angi120593@192.168.1.99:5432/fortressdb?schema=public
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?schema=public
+  # SESSION_SECRET: erhbrynjtmdtfherathbyjmnhdtfxzfhgzfgbgdftaherhtgn
+  # NODE_ENV: production
 
   # FrontEnd - Angular UI
   front-end:
@@ -39,6 +39,72 @@ services:
     environment:
       # NODE_ENV: production
       VERSION: 1.0.0
+
+  # The name of our service is "database"
+  # but you can use the name of your choice.
+  # Note: This may change the commands you are going to use a little bit.
+  postgres-db:
+    # Official Postgres image from DockerHub (we use the last version)
+    image: "postgres:latest"
+    container_name: postgres-service
+    # By default, a Postgres database is running on the 5432 port.
+    # If we want to access the database from our computer (outside the container),
+    # we must share the port with our computer's port.
+    # The syntax is [port we want on our machine]:[port we want to retrieve in the container]
+    # Note: You are free to change your computer's port,
+    # but take into consideration that it will change the way
+    # you are connecting to your database.
+    ports:
+      - 5432:5432
+    env_file:
+      - .env # The name of your environment file (the one at the repository root)
+    # The `volumes` tag allows us to share a folder with our container
+    # Its syntax is as follows: [folder path on our machine]:[folder path to retrieve in the container]
+    volumes:
+      # In this example, we share the folder `db-data` in our root repository, with the default PostgreSQL data path
+      # It means that every time the repository is modifying the data inside
+      # of `/var/lib/postgresql/data/`, automatically the change will appear in `db-data`
+      # You don't need to create the `db-data` folder. Docker Compose will do it for you
+      # - ${PWD}/docker/postgres-data/:/var/lib/postgresql/data/
+      - postgrres-data:/var/lib/postgresql/data/
+    networks:
+      - test-net
+
+    environment:
+      # The environment variables are used to configure the PostgreSQL database.
+      # You can set them in a `.env` file or directly here.
+      # Note: If you use a `.env` file, you must create it at the root of your repository.
+      # The variables are:
+      POSTGRES_USER: ${POSTGRES_USER} # The PostgreSQL user (useful to connect to the database)
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # The PostgreSQL password (useful to connect to the database)
+      POSTGRES_DB: ${POSTGRES_DB} # The PostgreSQL default database (automatically created at first launch)
+      POSTGRES_HOST: ${POSTGRES_HOST} # The PostgreSQL host (usually `localhost` or `postgres-db` if you use Docker Compose)
+      POSTGRES_PORT: ${POSTGRES_PORT} # The PostgreSQL port (usually `5432`)
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-service
+    ports:
+      - 5050:${PGADMIN_LISTEN_PORT} # Expose pgAdmin on port 15433
+    env_file:
+      - .env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL} # Default email for pgAdmin login
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD} # Default password for pgAdmin login
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT} # Port on which pgAdmin will listen
+    depends_on:
+      - postgres-db
+    networks:
+      - test-net
+    
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin/
+# - ${PWD}/docker/pgadmin-data/:/var/lib/pgadmin/
+# user: "5050:5050"
+
+volumes:
+  pgadmin-data:
+  postgrres-data:
 # Build the containers and start the services:
 # docker compose up --build -d
 # Pruning command to remove unused data (optional)
