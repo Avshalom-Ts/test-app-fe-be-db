@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { environment } from '../environments/environment.prod';
+import { environment } from '../environments/environments.prod';
 
 export interface WelcomeData {
   message: string;
@@ -873,12 +873,14 @@ nx g &#64;nx/angular:component ui/src/lib/button</pre>
   encapsulation: ViewEncapsulation.None,
 })
 export class NxWelcomeComponent implements OnInit {
-  API_BASE_URL = environment.production ? 'http://localhost:3000/api' : '/api';
+  API_BASE_URL = environment.PRODUCTION
+    ? environment.API_BASE_URL
+    : environment.API_BASE_URL || '/api';
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    console.log("🚀 ~ NxWelcomeComponent ~ environment.production:", environment.production)
+    console.log("🚀 ~ NxWelcomeComponent ~ environment.production:", environment.PRODUCTION)
     console.log("🚀 ~ NxWelcomeComponent ~ API_BASE_URL:", this.API_BASE_URL)
     this.getData();
   }

@@ -10,12 +10,17 @@ import { AppModule } from './app/app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors({
-    origin: ['http://localhost:4200'], // Allowed origins
-    credentials: true,  // Allow cookies to be sent with requests
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],  // Include OPTIONS for preflight
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Allow necessary headers
-  });
+  // app.enableCors({
+  //   origin: [
+  //     'http://localhost:4200',
+  //     'http://front-end:80',
+  //     'http://177.178.179.2',
+  //     'http://177.178.179.2:80',
+  //   ], // Allowed origins
+  //   credentials: true,  // Allow cookies to be sent with requests
+  //   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],  // Include OPTIONS for preflight
+  //   allowedHeaders: ['Content-Type', 'Authorization'],  // Allow necessary headers
+  // });
 
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);

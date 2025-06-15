@@ -51,8 +51,8 @@
           "buildOptimizer": true,
           "fileReplacements": [
             {
-              "replace": "apps/front-end/src/environments/environment.ts",
-              "with": "apps/front-end/src/environments/environment.prod.ts"
+              "replace": "apps/front-end/src/environments/environments.ts",
+              "with": "apps/front-end/src/environments/environments.prod.ts"
             }
           ]
         },
