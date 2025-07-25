@@ -1,15 +1,53 @@
-<main class="w-full h-svh bg-slate-900">
+<main class="w-full h-full bg-slate-900">
 
     <div class="flex flex-col items-center justify-center h-full">
         <h1 class="text-4xl text-white mb-4">Welcome to the Home Page</h1>
-        @if(apiConnection()){
-        <p class="text-lg text-slate-400">Hello From:<span class="font-bold">{{apiConnection()?.message}}</span></p>
-        <p class="text-lg text-slate-400">Connecting database URI:<span
-                class="font-bold">{{apiConnection()?.databaseURL}}</span></p>
-        }
+
+        <!-- Server Information Section -->
+        <div class="flex flex-col bg-slate-800 p-6 rounded-lg mb-6 max-w-screen-sm">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl text-white font-semibold">Server Information</h2>
+                <button (click)="refreshServerInfo()"
+                    class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition duration-300">
+                    Refresh
+                </button>
+            </div>
+            @if(apiConnection()){
+            <p class="text-lg text-slate-400 mb-2">Backend Mesaage: <span
+                    class="font-bold text-green-400">{{apiConnection()?.message}}</span></p>
+            <p class="text-lg text-slate-400 mb-2">Database URL: <span
+                    class="font-bold text-blue-400">{{apiConnection()?.databaseURL}}</span></p>
+            @if(apiConnection()?.hostname) {
+            <p class="text-lg text-slate-400 mb-2">Docker Hostname: <span
+                    class="font-bold text-yellow-400">{{apiConnection()?.hostname}}</span></p>
+            }
+            @if(apiConnection()?.containerHostname) {
+            <p class="text-lg text-slate-400 mb-2">Container Hosname: <span
+                    class="font-bold text-orange-400">{{apiConnection()?.containerHostname}}</span></p>
+            }
+            }
+            @if(hostnameInfo()){
+            <div class="mt-4 p-3 bg-slate-700 rounded">
+                <h3 class="text-lg text-white mb-2 font-medium">Load Balancer Test Info</h3>
+                <p class="text-sm text-slate-300 mb-1">Docker Host: <span
+                        class="font-bold text-yellow-400">{{hostnameInfo()?.hostname}}</span></p>
+                <p class="text-sm text-slate-300 mb-1">Container: <span
+                        class="font-bold text-orange-400">{{hostnameInfo()?.containerHostname}}</span></p>
+                <p class="text-sm text-slate-300 mb-1">: <span
+                        class="font-bold text-purple-400">{{hostnameInfo()?.platform}}</span></p>
+                <p class="text-sm text-slate-300 mb-1">Node Version: <span
+                        class="font-bold text-cyan-400">{{hostnameInfo()?.nodeVersion}}</span></p>
+                <p class="text-sm text-slate-300">Status: <span
+                        class="font-bold text-green-400">{{hostnameInfo()?.dockerHost}}</span></p>
+            </div>
+            }
+        </div>
+
         <!-- Create Store Name -->
-        <div>
-            <form [formGroup]="storeForm" (ngSubmit)="onSubmit()" novalidate class="flex flex-col items-center">
+        <div class="flex flex-col gap-2 bg-slate-800 p-6 rounded">
+            <h1 class="text-2xl text-white mb-4">Test the DB Connection: Create Store</h1>
+            <form [formGroup]="storeForm" (ngSubmit)="onSubmit()" novalidate
+                class="flex flex-col gap-2 items-center bg-slate-700 p-4 rounded">
                 <input type="text" formControlName="name" required placeholder="Enter Store Name"
                     class="p-2 mb-4 rounded bg-slate-800 text-white w-64">
                 <input type="text" formControlName="description" required placeholder="Enter Store Description"
@@ -19,10 +57,20 @@
                     Store
                 </button>
             </form>
-        </div>
-        <!-- Fetch All Store Names -->
-        <div class="text-white text-base">
-            {{allStores() | json}}
+            <!-- Fetch All Store Names -->
+            <div class="text-white text-base bg-slate-700 p-4 rounded">
+                <h2 class="text-xl mb-4">All Stores Created:</h2>
+                <!-- {{allStores() | json}} -->
+                @for(store of allStores(); track store;let i = $index) {
+                <div class="flex justify-between gap-2 bg-slate-700 p-3 rounded">
+                    <span class="text-green-300 text-base">{{i + 1}}. </span>
+                    <p class="text-lg font-semibold text-slate-300"><span
+                            class="text-slate-400">Name:</span>{{store.name}}</p>
+                    <p class="text-lg font-semibold text-slate-300"><span
+                            class="text-slate-400">Description:</span>{{store.description}}</p>
+                </div>
+                }
+            </div>
         </div>
     </div>
 </main>

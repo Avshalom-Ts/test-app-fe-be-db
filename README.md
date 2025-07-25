@@ -4,6 +4,68 @@
 
 ✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
 
+This is a full-stack application with Angular frontend, NestJS backend, PostgreSQL database, and Docker support. The application includes load balancer testing capabilities by displaying the Docker host hostname.
+
+## 🚀 Quick Start with Docker
+
+### Load Balancer Testing Feature
+
+This application includes a feature to display the hostname of the Docker host machine, which is useful for testing load balancers to see which server is handling requests.
+
+### Start with Hostname Detection
+
+**Windows (PowerShell):**
+
+```powershell
+.\start-with-hostname.ps1
+```
+
+**Windows (Command Prompt):**
+
+```cmd
+start-with-hostname.bat
+```
+
+**Linux/macOS:**
+
+```bash
+chmod +x start-with-hostname.sh
+./start-with-hostname.sh
+```
+
+### Manual Docker Compose Start
+
+If you prefer to start manually:
+
+**Windows:**
+
+```cmd
+set HOSTNAME=%COMPUTERNAME%
+docker-compose up --build -d
+```
+
+**Linux/macOS:**
+
+```bash
+export HOSTNAME=$(hostname)
+docker-compose up --build -d
+```
+
+### Access the Application
+
+- **Frontend (Angular):** http://localhost:4200
+- **Backend (NestJS):** http://localhost:3000
+- **Nginx (Load Balancer):** http://localhost:80
+- **Database (PostgreSQL):** localhost:5432
+- **pgAdmin:** http://localhost:5050
+
+The frontend will display:
+- 🖥️ **Docker Host Hostname**: The actual server machine name (useful for load balancer testing)
+- 📦 **Container Hostname**: The Docker container's internal hostname
+- **Platform & Node Version**: Additional server information
+
+## 🔧 Development Setup
+
 [Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/angular-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
 
 ## Finish your CI setup

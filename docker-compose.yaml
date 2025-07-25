@@ -6,19 +6,19 @@ networks:
 
 services:
   nginx:
-      image: nginx:alpine
-      container_name: nginx-test
-      restart: unless-stopped
-      ports:
-        - "80:80"
-      volumes:
-        - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-        # - ./dist/frontend:/usr/share/nginx/html:ro # Path to your Angular build output, For development, you can use the dist folder directly
-      depends_on:
-        - front-end
-        - back-end
-      networks:
-        - test-net
+    image: nginx:alpine
+    container_name: nginx-test
+    restart: unless-stopped
+    ports:
+      - '80:80'
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./dist/frontend:/usr/share/nginx/html:ro # Path to your Angular build output, For development, you can use the dist folder directly
+    depends_on:
+      - front-end
+      - back-end
+    networks:
+      - test-net
   # BackEnd - NestJS API
   back-end:
     restart: unless-stopped
@@ -42,6 +42,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_HOST: ${POSTGRES_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
+      # Pass the Docker host's hostname for load balancer testing
+      DOCKER_HOST_HOSTNAME: ${HOSTNAME:-unknown}
 
   # FrontEnd - Angular UI
   front-end:
@@ -65,7 +67,7 @@ services:
   # Note: This may change the commands you are going to use a little bit.
   postgres-db:
     # Official Postgres image from DockerHub (we use the last version)
-    image: "postgres:latest"
+    image: 'postgres:latest'
     container_name: postgres-service
     # By default, a Postgres database is running on the 5432 port.
     # If we want to access the database from our computer (outside the container),
@@ -116,7 +118,7 @@ services:
       - postgres-db
     networks:
       - test-net
-    
+
     volumes:
       - pgadmin-data:/var/lib/pgadmin/
 # - ${PWD}/docker/pgadmin-data/:/var/lib/pgadmin/
