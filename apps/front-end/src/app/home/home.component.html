@@ -63,11 +63,11 @@
                 <!-- {{allStores() | json}} -->
                 @for(store of allStores(); track store;let i = $index) {
                 <div class="flex justify-between gap-2 bg-slate-700 p-3 rounded">
-                    <span class="text-green-300 text-base">{{i + 1}}. </span>
-                    <p class="text-lg font-semibold text-slate-300"><span
-                            class="text-slate-400">Name:</span>{{store.name}}</p>
-                    <p class="text-lg font-semibold text-slate-300"><span
-                            class="text-slate-400">Description:</span>{{store.description}}</p>
+
+                    <p class="text-lg font-semibold text-slate-300"><span class="text-green-300 text-base">{{i + 1}}.
+                        </span><span class="text-slate-400">Name: </span>{{store.name}}</p>
+                    <p class="text-lg font-semibold text-slate-300"><span class="text-slate-400">Description:
+                        </span>{{store.description}}</p>
                 </div>
                 }
             </div>
