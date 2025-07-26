@@ -60,6 +60,7 @@ docker-compose up --build -d
 - **pgAdmin:** http://localhost:5050
 
 The frontend will display:
+
 - 🖥️ **Docker Host Hostname**: The actual server machine name (useful for load balancer testing)
 - 📦 **Container Hostname**: The Docker container's internal hostname
 - **Platform & Node Version**: Additional server information
